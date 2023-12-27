@@ -10,18 +10,20 @@ import java.nio.channels.FileChannel;
 @AllArgsConstructor
 @Data
 public abstract class Atom {
-  protected ByteBuffer data;
+  public static final int TO_STRING_EXTRA_INDENT = 4;
 
   protected final int size;
-  protected final String type;
   protected final long position;
+  protected final AtomType atomType;
 
+  protected ByteBuffer data;
   protected boolean dataLoaded = false;
+  protected Atom parent;
 
-  public Atom(int size, String type, long position) {
+  public Atom(int size, long position, AtomType atomType) {
     this.size = size;
-    this.type = type;
     this.position = position;
+    this.atomType = atomType;
   }
 
   public abstract void parseData();
@@ -42,5 +44,23 @@ public abstract class Atom {
 
   public static String byteToHexString(byte b) {
     return String.format("0x%02X", b & 0xFF);
+  }
+
+  protected abstract String toStringChild(int indentLevel);
+
+  public String toString(int indentLevel) {
+    StringBuilder str = new StringBuilder();
+    str.repeat(" ", indentLevel);
+    str.append("Type: ");
+    str.append(atomType.getType());
+    str.append(" (");
+    str.append(atomType.getHrName());
+    str.append("), Size: ");
+    str.append(size);
+    str.append(", Pos: ");
+    str.append(position);
+    str.append("\n");
+    str.append(toStringChild(indentLevel + TO_STRING_EXTRA_INDENT));
+    return str.toString();
   }
 }

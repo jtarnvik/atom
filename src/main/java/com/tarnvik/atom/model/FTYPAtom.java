@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
@@ -18,8 +19,8 @@ public class FTYPAtom extends Atom {
   // "Array of 4 byte blocks with compatible brands. One should be 'qt  ' to be able to use spec.";
   private List<String> compatibleBrands;
 
-  public FTYPAtom(int size, String type, long position) {
-    super(size, type, position);
+  public FTYPAtom(int size, long position, AtomType at) {
+    super(size, position, at);
   }
 
   @Override
@@ -33,11 +34,24 @@ public class FTYPAtom extends Atom {
       minorVersion.add(byteToHexString(data.get()));
     }
     compatibleBrands = new ArrayList<>();
-    while(data.hasRemaining()) {
+    while (data.hasRemaining()) {
       data.get(chTmp);
       if (ByteBuffer.wrap(chTmp).getInt() != 0) {
         compatibleBrands.add(new String(chTmp, StandardCharsets.UTF_8));
       }
     }
+  }
+
+  @Override
+  protected String toStringChild(int indentLevel) {
+    StringBuilder str = new StringBuilder();
+    str.repeat(" ", indentLevel);
+    str.append("Parsed: MajorBrand: ");
+    str.append(majorBrand);
+    str.append(" MinorVersion: [");
+    str.append(String.join(", ", minorVersion));
+    str.append("] CompatibleBrands: ");
+    str.append(String.join(", ", compatibleBrands));
+    return str.toString();
   }
 }

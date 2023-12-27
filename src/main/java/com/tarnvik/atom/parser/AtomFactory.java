@@ -2,8 +2,6 @@ package com.tarnvik.atom.parser;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
-import com.tarnvik.atom.model.FTYPAtom;
-import com.tarnvik.atom.model.UnknownAtom;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -28,14 +26,10 @@ public class AtomFactory {
       sizeAndType.position(4);
       String type = StandardCharsets.UTF_8.decode(sizeAndType).toString();
 
-      Atom atom = switch (AtomType.from(type)) {
-        case FTYP:
-          yield new FTYPAtom(size, type, position);
-        case UNKNWON:
-          yield new UnknownAtom(size, type, position);
-      };
+      Atom atom = AtomType.from(type).generateAtomInstance(size, position);
       atom.loadData(fc);
       atom.parseData();
+      System.out.println(atom.toString(0));
 
       return Optional.of(atom);
     } catch (IOException e) {
