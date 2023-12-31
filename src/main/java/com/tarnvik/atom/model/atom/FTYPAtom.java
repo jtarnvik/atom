@@ -1,5 +1,7 @@
-package com.tarnvik.atom.model;
+package com.tarnvik.atom.model.atom;
 
+import com.tarnvik.atom.model.Atom;
+import com.tarnvik.atom.model.AtomType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -7,7 +9,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
@@ -19,8 +20,8 @@ public class FTYPAtom extends Atom {
   // "Array of 4 byte blocks with compatible brands. One should be 'qt  ' to be able to use spec.";
   private List<String> compatibleBrands;
 
-  public FTYPAtom(int size, long position, AtomType at) {
-    super(size, position, at);
+  public FTYPAtom(long position, ByteBuffer sizeAndType, AtomType at) {
+    super(position, sizeAndType, at);
   }
 
   @Override
@@ -43,9 +44,10 @@ public class FTYPAtom extends Atom {
   }
 
   @Override
-  protected String toStringChild(int indentLevel) {
+  public String toString(int indentLevel) {
     StringBuilder str = new StringBuilder();
-    str.repeat(" ", indentLevel);
+    str.append(super.toString(indentLevel));
+    str.repeat(" ", indentLevel + TO_STRING_EXTRA_INDENT);
     str.append("Parsed: MajorBrand: ");
     str.append(majorBrand);
     str.append(" MinorVersion: [");

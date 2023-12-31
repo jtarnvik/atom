@@ -14,5 +14,4 @@ public class FileChannelFactory {
     // TODO: Verify that the fp points to a movie file with a format we can handle
     return FileChannel.open(fp, StandardOpenOption.READ);
   }
-
 }
