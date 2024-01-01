@@ -29,12 +29,11 @@ public class SubAtoms extends Atom {
   }
 
   @Override
-  public String toString(int indentLevel) {
+  protected String toStringChild(int indentLevel) {
     StringBuilder str = new StringBuilder();
-    str.append(super.toString(indentLevel));
     str.append(
       subAtoms.stream()
-        .map(atom -> atom.toString(indentLevel + TO_STRING_EXTRA_INDENT))
+        .map(atom -> atom.toString(indentLevel))
         .collect(Collectors.joining("\n"))
     );
     return str.toString();

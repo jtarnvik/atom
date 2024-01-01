@@ -44,10 +44,9 @@ public class FTYPAtom extends Atom {
   }
 
   @Override
-  public String toString(int indentLevel) {
+  public String toStringChild(int indentLevel) {
     StringBuilder str = new StringBuilder();
-    str.append(super.toString(indentLevel));
-    str.repeat(" ", indentLevel + TO_STRING_EXTRA_INDENT);
+    str.repeat(" ", indentLevel);
     str.append("Parsed: MajorBrand: ");
     str.append(majorBrand);
     str.append(" MinorVersion: [");

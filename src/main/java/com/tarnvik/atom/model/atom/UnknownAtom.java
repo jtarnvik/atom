@@ -16,11 +16,10 @@ public class UnknownAtom extends Atom {
   }
 
   @Override
-  public String toString(int indentLevel) {
+  protected String toStringChild(int indentLevel) {
     StringBuilder str = new StringBuilder();
-    str.append(super.toString(indentLevel));
-    str.repeat(" ", indentLevel + TO_STRING_EXTRA_INDENT);
-    str.append("Parsed: ---Not yet implemented---");
+    str.repeat(" ", indentLevel);
+    str.append("Parsed: ######### Unknown #########");
     return str.toString();
   }
 }

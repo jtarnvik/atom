@@ -5,26 +5,26 @@ import com.tarnvik.atom.model.AtomType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
-public class FREEAtom extends Atom {
-  public FREEAtom(long position, ByteBuffer sizeAndType, AtomType at) {
-    super(position, sizeAndType, at);
+public class DREFAtom extends Atom {
+  public DREFAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
+    super(position, sizeAndType, atomType);
   }
 
   @Override
-  public void parseData() {
-    // Empty by design, padding and unallocated space
+  public void parseData() throws IOException {
+    // Not yet implemented
   }
 
   @Override
-  public String toStringChild(int indentLevel) {
+  protected String toStringChild(int indentLevel) {
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
-    str.append("Parsed: Unallocated space");
+    str.append("Parsed: ---Not yet implemented---");
     return str.toString();
   }
-
 }

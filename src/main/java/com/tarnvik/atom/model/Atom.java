@@ -7,11 +7,16 @@ import lombok.Data;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @AllArgsConstructor
 @Data
 public abstract class Atom {
   public static final int TO_STRING_EXTRA_INDENT = 4;
+  protected static final LocalDateTime EPOCH_1904 = LocalDateTime.of(1904, 1, 1, 0, 0, 0);
+  protected static final DateTimeFormatter LDT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   protected final int size;
   protected final long position;
@@ -62,9 +67,7 @@ public abstract class Atom {
     }
   }
 
-  public static String byteToHexString(byte b) {
-    return String.format("0x%02X", b & 0xFF);
-  }
+  protected abstract String toStringChild(int indentLevel);
 
   public String toString(int indentLevel) {
     StringBuilder str = new StringBuilder();
@@ -82,6 +85,34 @@ public abstract class Atom {
     str.append(", Pos: ");
     str.append(position);
     str.append("\n");
+    str.append(toStringChild(indentLevel + TO_STRING_EXTRA_INDENT));
     return str.toString();
   }
+
+  public static String byteToHexString(byte b) {
+    return String.format("0x%02X", b & 0xFF);
+  }
+
+  public static LocalDateTime secondsSince1904ToLDT(long secs) {
+    return EPOCH_1904.plusSeconds(secs);
+  }
+
+  public static String formatWith2Decimals(double seconds) {
+    return String.format(Locale.US, "%.2f", seconds);
+  }
+
+  public static double convert8x8FixedPoint(int preferredVolume) {
+    int wholePart = (preferredVolume >> 8) & 0xFF;
+    int fractionalPart = preferredVolume & 0xFF;
+
+    return wholePart + (fractionalPart / 256.0);
+  }
+  
+  public static double convert16x16FixedPoint(long preferredRate) {
+    int wholePart = (int) ((preferredRate >> 16) & 0xFFFF);
+    int fractionalPart = (int) (preferredRate & 0xFFFF);
+
+    return wholePart + (fractionalPart / 65536.0);
+  }
+
 }
