@@ -10,8 +10,8 @@ import java.nio.ByteBuffer;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
-public class DATAAtom extends Atom {
-  public DATAAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
+public class NAMEAtom extends Atom {
+  public NAMEAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
     super(position, sizeAndType, atomType);
   }
 
@@ -24,7 +24,7 @@ public class DATAAtom extends Atom {
   protected String toStringChild(int indentLevel) {
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
-    str.append("Parsed: ---Not yet implemented, implemented in RUST---");
+    str.append("Parsed: ---Not yet implemented---");
     return str.toString();
   }
 }
