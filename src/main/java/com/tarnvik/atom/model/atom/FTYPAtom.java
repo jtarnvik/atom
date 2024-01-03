@@ -16,7 +16,7 @@ public class FTYPAtom extends Atom {
   // 4 bytes, for major brand, to be interpreted as asci chars
   private String majorBrand;
   // 4 bytes, for quicktime, century, month, date, ZERO";
-  private List<String> minorVersion;
+  private byte[] minorVersion;
   // "Array of 4 byte blocks with compatible brands. One should be 'qt  ' to be able to use spec.";
   private List<String> compatibleBrands;
 
@@ -30,9 +30,9 @@ public class FTYPAtom extends Atom {
     byte[] chTmp = new byte[4];
     data.get(chTmp);
     majorBrand = new String(chTmp, StandardCharsets.UTF_8);
-    minorVersion = new ArrayList<>();
+    minorVersion = new byte[4];
     for (int i = 0; i < 4; ++i) {
-      minorVersion.add(byteToHexString(data.get()));
+      minorVersion[i] = data.get();
     }
     compatibleBrands = new ArrayList<>();
     while (data.hasRemaining()) {
@@ -50,7 +50,7 @@ public class FTYPAtom extends Atom {
     str.append("Parsed: MajorBrand: ");
     str.append(majorBrand);
     str.append(" MinorVersion: [");
-    str.append(String.join(", ", minorVersion));
+    str.append(bytesToHexString(minorVersion));
     str.append("] CompatibleBrands: ");
     str.append(String.join(", ", compatibleBrands));
     return str.toString();

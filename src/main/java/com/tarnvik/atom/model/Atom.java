@@ -9,6 +9,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @AllArgsConstructor
@@ -93,6 +95,14 @@ public abstract class Atom {
     return String.format("0x%02X", b & 0xFF);
   }
 
+  public static String bytesToHexString(byte[] bts) {
+    List<String> result = new ArrayList<>();
+    for (int i = 0; i < bts.length; ++i) {
+      result.add(byteToHexString(bts[i]));
+    }
+    return String.join(", ", result);
+  }
+
   public static LocalDateTime secondsSince1904ToLDT(long secs) {
     return EPOCH_1904.plusSeconds(secs);
   }
@@ -107,7 +117,7 @@ public abstract class Atom {
 
     return wholePart + (fractionalPart / 256.0);
   }
-  
+
   public static double convert16x16FixedPoint(long preferredRate) {
     int wholePart = (int) ((preferredRate >> 16) & 0xFFFF);
     int fractionalPart = (int) (preferredRate & 0xFFFF);
@@ -115,4 +125,21 @@ public abstract class Atom {
     return wholePart + (fractionalPart / 65536.0);
   }
 
+  // TODO: convert to record and external class
+  @Data
+  public static class VersionFlag {
+    private int version;
+    private byte[] flags = new byte[3];
+  }
+
+  protected static VersionFlag parseVerionAndFlags(ByteBuffer data) {
+    VersionFlag result = new VersionFlag();
+    byte[] chTmp = new byte[4];
+    data.get(chTmp);
+    result.setVersion(Byte.toUnsignedInt(chTmp[0]));
+    result.getFlags()[0] = chTmp[1];
+    result.getFlags()[1] = chTmp[2];
+    result.getFlags()[2] = chTmp[3];
+    return result;
+  }
 }

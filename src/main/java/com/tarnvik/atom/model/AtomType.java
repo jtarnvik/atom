@@ -7,7 +7,9 @@ import com.tarnvik.atom.model.atom.ELSTAtom;
 import com.tarnvik.atom.model.atom.FREEAtom;
 import com.tarnvik.atom.model.atom.FTYPAtom;
 import com.tarnvik.atom.model.atom.HDLRAtom;
+import com.tarnvik.atom.model.atom.MDATAtom;
 import com.tarnvik.atom.model.atom.MDHDAtom;
+import com.tarnvik.atom.model.atom.METAAtom;
 import com.tarnvik.atom.model.atom.MVHDAtom;
 import com.tarnvik.atom.model.atom.SBGPAtom;
 import com.tarnvik.atom.model.atom.SDTPAtom;
@@ -49,7 +51,9 @@ public enum AtomType {
   HDLR(   "hdlr", HDLRAtom::new,    "Handler reference"),
   ILST(   "ilst", SubAtoms::new,    "Meta data container"),
   LDES(   "ldes", SubAtoms::new,    "Long Description"),
+  MDAT(   "mdat", MDATAtom::new,    "Movie Sample Data"),
   MDHA(   "mdha", SubAtoms::new,    "Media header"),
+  META(   "meta", METAAtom::new,    "Meta data"),
   MDHD(   "mdhd", MDHDAtom::new,    "Movie header"),
   MDIA(   "mdia", SubAtoms::new,    "Media"),
   MINF(   "minf", SubAtoms::new,    "Media Information"),

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class SubAtoms extends Atom {
-  private final List<Atom> subAtoms = new ArrayList<>();
+  protected final List<Atom> subAtoms = new ArrayList<>();
 
   public SubAtoms(long position, ByteBuffer sizeAndType, AtomType atomType) {
     super(position, sizeAndType, atomType);
@@ -24,6 +24,10 @@ public class SubAtoms extends Atom {
   @Override
   public void parseData() throws IOException {
     data.rewind();
+    parseSubAtoms();
+  }
+
+  protected void parseSubAtoms() throws IOException {
     subAtoms.addAll(AtomFactory.loadAll(data, getDataStartPosition()));
     subAtoms.forEach(atom -> atom.setParent(this));
   }

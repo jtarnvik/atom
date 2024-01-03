@@ -60,19 +60,15 @@ public class MVHDAtom extends Atom {
   @Override
   public void parseData() {
     data.rewind();
-    byte[] chTmp = new byte[4];
-    data.get(chTmp);
-    version = Byte.toUnsignedInt(chTmp[0]);
-    flags = new byte[3];
-    flags[0] = chTmp[1];
-    flags[1] = chTmp[2];
-    flags[2] = chTmp[3];
+    VersionFlag versionFlag = parseVerionAndFlags(data);
+    version = versionFlag.getVersion();
+    flags = versionFlag.getFlags();
     if (version == 0) {
       parserVersion0();
     } else if (version == 1) {
       parserVersion1();
     } else {
-      throw new IllegalArgumentException("Unknown mvhd version (0 and 1 supported) found: " + chTmp[0]);
+      throw new IllegalArgumentException("Unknown mvhd version (0 and 1 supported) found: " + version);
     }
   }
 
