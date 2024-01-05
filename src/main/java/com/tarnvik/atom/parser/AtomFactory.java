@@ -16,31 +16,31 @@ import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AtomFactory {
-  public static List<Atom> loadAll(Path fp, long position) throws IOException {
+  public static List<Atom> loadAll(Path fp, long position, Atom parent) throws IOException {
     try (FileChannel fc = FileChannelFactory.create(fp)) {
       AtomDataSource ads = new AtomDataSource(fc);
-      return loadAll(ads, position);
+      return loadAll(ads, position, parent);
     }
   }
 
-  public static List<Atom> loadAll(ByteBuffer byteBuffer, long position) throws IOException {
+  public static List<Atom> loadAll(ByteBuffer byteBuffer, long position, Atom parent) throws IOException {
     AtomDataSource ads = new AtomDataSource(byteBuffer);
-    return loadAll(ads, position);
+    return loadAll(ads, position, parent);
   }
 
-  private static List<Atom> loadAll(AtomDataSource ads, long position) throws IOException {
+  private static List<Atom> loadAll(AtomDataSource ads, long position, Atom parent) throws IOException {
     List<Atom> result = new ArrayList<>();
-    Optional<Atom> next = AtomFactory.next(ads, position);
+    Optional<Atom> next = AtomFactory.next(ads, position, parent);
     while (next.isPresent()) {
       Atom atom = next.get();
       result.add(atom);
       position += atom.getSize();
-      next = AtomFactory.next(ads, position);
+      next = AtomFactory.next(ads, position, parent);
     }
     return result;
   }
 
-  public static Optional<Atom> next(AtomDataSource ads, long position) throws IOException {
+  public static Optional<Atom> next(AtomDataSource ads, long position, Atom parent) throws IOException {
     Optional<ByteBuffer> sizeAndTypeOpt = ads.extract(8);
     if (sizeAndTypeOpt.isEmpty()) {
       return Optional.empty();
@@ -49,7 +49,7 @@ public class AtomFactory {
     sizeAndType.position(4);
     String type = StandardCharsets.UTF_8.decode(sizeAndType).toString();
 
-    Atom atom = AtomType.from(type).generateAtomInstance(position, sizeAndType);
+    Atom atom = AtomType.from(type).generateAtomInstance(position, sizeAndType, parent);
     atom.loadData(ads);
     atom.parseData();
 

@@ -11,8 +11,8 @@ import java.nio.ByteBuffer;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class STTSAtom extends Atom {
-  public STTSAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
-    super(position, sizeAndType, atomType);
+  public STTSAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
+    super(position, sizeAndType, atomType, parent);
   }
 
   @Override

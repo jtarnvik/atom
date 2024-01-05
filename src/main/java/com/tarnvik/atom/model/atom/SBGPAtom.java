@@ -11,8 +11,8 @@ import java.nio.ByteBuffer;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class SBGPAtom extends Atom {
-  public SBGPAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
-    super(position, sizeAndType, atomType);
+  public SBGPAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
+    super(position, sizeAndType, atomType, parent);
   }
 
   @Override

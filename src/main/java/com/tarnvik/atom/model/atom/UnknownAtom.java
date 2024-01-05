@@ -6,8 +6,8 @@ import com.tarnvik.atom.model.AtomType;
 import java.nio.ByteBuffer;
 
 public class UnknownAtom extends Atom {
-  public UnknownAtom(long position, ByteBuffer sizeAndType, AtomType at) {
-    super(position, sizeAndType, at);
+  public UnknownAtom(long position, ByteBuffer sizeAndType, AtomType at, Atom parent) {
+    super(position, sizeAndType, at, parent);
   }
 
   @Override

@@ -17,7 +17,7 @@ public class AppTest {
     if (!Files.exists(fp)) {
       return;
     }
-    List<Atom> result = AtomFactory.loadAll(fp, 0);
+    List<Atom> result = AtomFactory.loadAll(fp, 0, null);
     result.forEach(atom -> System.out.println(atom.toString(0)));
   }
 }

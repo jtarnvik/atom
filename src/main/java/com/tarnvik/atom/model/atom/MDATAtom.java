@@ -11,8 +11,8 @@ import java.nio.ByteBuffer;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class MDATAtom extends Atom {
-  public MDATAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
-    super(position, sizeAndType, atomType);
+  public MDATAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
+    super(position, sizeAndType, atomType, parent);
   }
 
   @Override

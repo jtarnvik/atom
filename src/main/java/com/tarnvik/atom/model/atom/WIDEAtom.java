@@ -10,8 +10,8 @@ import java.nio.ByteBuffer;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class WIDEAtom extends Atom {
-  public WIDEAtom(long position, ByteBuffer sizeAndType, AtomType at) {
-    super(position, sizeAndType, at);
+  public WIDEAtom(long position, ByteBuffer sizeAndType, AtomType at, Atom parent) {
+    super(position, sizeAndType, at, parent);
   }
 
   @Override

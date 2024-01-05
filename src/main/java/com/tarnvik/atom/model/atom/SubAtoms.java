@@ -17,19 +17,18 @@ import java.util.stream.Collectors;
 public class SubAtoms extends Atom {
   protected final List<Atom> subAtoms = new ArrayList<>();
 
-  public SubAtoms(long position, ByteBuffer sizeAndType, AtomType atomType) {
-    super(position, sizeAndType, atomType);
+  public SubAtoms(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
+    super(position, sizeAndType, atomType, parent);
   }
 
   @Override
   public void parseData() throws IOException {
     data.rewind();
-    parseSubAtoms();
+    parseSubAtoms(0);
   }
 
-  protected void parseSubAtoms() throws IOException {
-    subAtoms.addAll(AtomFactory.loadAll(data, getDataStartPosition()));
-    subAtoms.forEach(atom -> atom.setParent(this));
+  protected void parseSubAtoms(int adjustedPosition) throws IOException {
+    subAtoms.addAll(AtomFactory.loadAll(data, getDataStartPosition() + adjustedPosition, this));
   }
 
   @Override

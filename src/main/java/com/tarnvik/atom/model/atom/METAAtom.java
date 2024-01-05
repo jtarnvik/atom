@@ -1,6 +1,8 @@
 package com.tarnvik.atom.model.atom;
 
+import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.converter.TypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -13,8 +15,8 @@ public class METAAtom extends SubAtoms {
   private long version;
   private byte[] flags;
 
-  public METAAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
-    super(position, sizeAndType, atomType);
+  public METAAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
+    super(position, sizeAndType, atomType, parent);
   }
 
   @Override
@@ -23,7 +25,7 @@ public class METAAtom extends SubAtoms {
     VersionFlag versionFlag = parseVerionAndFlags(data);
     version = versionFlag.getVersion();
     flags = versionFlag.getFlags();
-    parseSubAtoms();
+    parseSubAtoms(4);
   }
 
   @Override
@@ -33,7 +35,7 @@ public class METAAtom extends SubAtoms {
     str.append("Parsed: Version: ");
     str.append(version);
     str.append(" Flags: [");
-    str.append(bytesToHexString(flags));
+    str.append(TypeConverter.bytesToHexString(flags));
     str.append("]");
     str.append("\n");
     str.append(super.toStringChild(indentLevel));

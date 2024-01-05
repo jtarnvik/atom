@@ -2,6 +2,7 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.converter.TypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -20,8 +21,8 @@ public class FTYPAtom extends Atom {
   // "Array of 4 byte blocks with compatible brands. One should be 'qt  ' to be able to use spec.";
   private List<String> compatibleBrands;
 
-  public FTYPAtom(long position, ByteBuffer sizeAndType, AtomType at) {
-    super(position, sizeAndType, at);
+  public FTYPAtom(long position, ByteBuffer sizeAndType, AtomType at, Atom parent) {
+    super(position, sizeAndType, at, parent);
   }
 
   @Override
@@ -50,7 +51,7 @@ public class FTYPAtom extends Atom {
     str.append("Parsed: MajorBrand: ");
     str.append(majorBrand);
     str.append(" MinorVersion: [");
-    str.append(bytesToHexString(minorVersion));
+    str.append(TypeConverter.bytesToHexString(minorVersion));
     str.append("] CompatibleBrands: ");
     str.append(String.join(", ", compatibleBrands));
     return str.toString();

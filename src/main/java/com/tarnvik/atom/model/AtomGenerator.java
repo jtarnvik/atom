@@ -1,6 +1,8 @@
 package com.tarnvik.atom.model;
 
+import java.nio.ByteBuffer;
+
 @FunctionalInterface
-interface AtomGenerator<A, B, R> {
-  R apply(A a, B b, AtomType at);
+interface AtomGenerator {
+  Atom apply(Long a, ByteBuffer b, AtomType at, Atom parent);
 }

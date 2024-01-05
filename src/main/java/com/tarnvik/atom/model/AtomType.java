@@ -88,16 +88,16 @@ public enum AtomType {
   private final String hrName;
   @Getter
   private final String type;
-  private final AtomGenerator<Long, ByteBuffer, Atom> atomProvider;
+  private final AtomGenerator atomProvider;
 
-  AtomType(String type, AtomGenerator<Long, ByteBuffer, Atom> atomProvider, String hrName) {
+  AtomType(String type, AtomGenerator atomProvider, String hrName) {
     this.hrName = hrName;
     this.type = type;
     this.atomProvider = atomProvider;
   }
 
-  public Atom generateAtomInstance(long position, ByteBuffer sizeAndType) {
-    return atomProvider.apply(position, sizeAndType, this);
+  public Atom generateAtomInstance(long position, ByteBuffer sizeAndType, Atom parent) {
+    return atomProvider.apply(position, sizeAndType, this, parent);
   }
 
   public static AtomType from(String type) {

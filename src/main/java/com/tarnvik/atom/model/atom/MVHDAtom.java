@@ -2,6 +2,8 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.converter.TimeConverter;
+import com.tarnvik.atom.model.converter.TypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -25,8 +27,8 @@ public class MVHDAtom extends Atom {
   private long preDefined;
   private long nextTrackId;
 
-  public MVHDAtom(long position, ByteBuffer sizeAndType, AtomType atomType) {
-    super(position, sizeAndType, atomType);
+  public MVHDAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
+    super(position, sizeAndType, atomType, parent);
   }
 
   private void parserVersion0() {
@@ -78,26 +80,26 @@ public class MVHDAtom extends Atom {
     str.repeat(" ", indentLevel);
     str.append("Parsed: Version: ");
     str.append(version);
-    LocalDateTime ldt = secondsSince1904ToLDT(creationTime);
+    LocalDateTime ldt = TimeConverter.secondsSince1904ToLDT(creationTime);
     str.append(" Creation time: ");
-    str.append(ldt.format(LDT_FORMAT));
+    str.append(ldt.format(TimeConverter.LDT_FORMAT));
     if (creationTime != modificationTime) {
-      ldt = secondsSince1904ToLDT(modificationTime);
+      ldt = TimeConverter.secondsSince1904ToLDT(modificationTime);
       str.append(" Modification time: ");
-      str.append(ldt.format(LDT_FORMAT));
+      str.append(ldt.format(TimeConverter.LDT_FORMAT));
     }
     if (timescale != 0) {
       str.append(" Timescale: ");
       str.append(timescale);
       double actualLength = (double) duration / (double) timescale;
       str.append(" (Length: ");
-      str.append(formatWith2Decimals(actualLength));
+      str.append(TypeConverter.formatWith2Decimals(actualLength));
       str.append("s) ");
     }
     str.append(" PreferredRate: ");
-    str.append(formatWith2Decimals(convert16x16FixedPoint(preferredRate)));
+    str.append(TypeConverter.formatWith2Decimals(TypeConverter.convert16x16FixedPoint(preferredRate)));
     str.append(" PreferredVolume: ");
-    str.append(formatWith2Decimals(convert8x8FixedPoint(preferredVolume)));
+    str.append(TypeConverter.formatWith2Decimals(TypeConverter.convert8x8FixedPoint(preferredVolume)));
     str.append(" NextTrackId: ");
     str.append(nextTrackId);
     return str.toString();
