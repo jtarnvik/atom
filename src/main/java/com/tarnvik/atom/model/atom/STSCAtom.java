@@ -2,6 +2,7 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.ParsedAtom;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -16,9 +17,11 @@ public class STSCAtom extends Atom {
   }
 
   @Override
-  public void parseData() throws IOException {
+  public ParsedAtom parseData() throws IOException {
+    return null;
     // Not yet implemented
   }
+
 
   @Override
   protected String toStringChild(int indentLevel) {

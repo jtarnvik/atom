@@ -2,7 +2,9 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.ParsedAtom;
 import com.tarnvik.atom.model.converter.TypeConverter;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -14,46 +16,52 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class FTYPAtom extends Atom {
-  // 4 bytes, for major brand, to be interpreted as asci chars
-  private String majorBrand;
-  // 4 bytes, for quicktime, century, month, date, ZERO";
-  private byte[] minorVersion;
-  // "Array of 4 byte blocks with compatible brands. One should be 'qt  ' to be able to use spec.";
-  private List<String> compatibleBrands;
+  @Data
+  public static class Parsed implements ParsedAtom {
+    // 4 bytes, for major brand, to be interpreted as asci chars
+    private String majorBrand;
+    // 4 bytes, for quicktime, century, month, date, ZERO";
+    private byte[] minorVersion;
+    // "Array of 4 byte blocks with compatible brands. One should be 'qt  ' to be able to use spec.";
+    private List<String> compatibleBrands;
+  }
 
   public FTYPAtom(long position, ByteBuffer sizeAndType, AtomType at, Atom parent) {
     super(position, sizeAndType, at, parent);
   }
 
   @Override
-  public void parseData() {
+  public ParsedAtom parseData() {
     data.rewind();
+    Parsed result = new Parsed();
     byte[] chTmp = new byte[4];
     data.get(chTmp);
-    majorBrand = new String(chTmp, StandardCharsets.UTF_8);
-    minorVersion = new byte[4];
+    result.majorBrand = new String(chTmp, StandardCharsets.UTF_8);
+    result.minorVersion = new byte[4];
     for (int i = 0; i < 4; ++i) {
-      minorVersion[i] = data.get();
+      result.minorVersion[i] = data.get();
     }
-    compatibleBrands = new ArrayList<>();
+    result.compatibleBrands = new ArrayList<>();
     while (data.hasRemaining()) {
       data.get(chTmp);
       if (ByteBuffer.wrap(chTmp).getInt() != 0) {
-        compatibleBrands.add(new String(chTmp, StandardCharsets.UTF_8));
+        result.compatibleBrands.add(new String(chTmp, StandardCharsets.UTF_8));
       }
     }
+    return result;
   }
 
   @Override
   public String toStringChild(int indentLevel) {
+    Parsed parsed = (Parsed) parseData();
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
     str.append("Parsed: MajorBrand: ");
-    str.append(majorBrand);
+    str.append(parsed.majorBrand);
     str.append(" MinorVersion: [");
-    str.append(TypeConverter.bytesToHexString(minorVersion));
+    str.append(TypeConverter.bytesToHexString(parsed.minorVersion));
     str.append("] CompatibleBrands: ");
-    str.append(String.join(", ", compatibleBrands));
+    str.append(String.join(", ", parsed.compatibleBrands));
     return str.toString();
   }
 }

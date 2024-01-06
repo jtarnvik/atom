@@ -38,4 +38,13 @@ public class TypeConverter {
 
     return wholePart + (fractionalPart / 65536.0);
   }
+
+  public static String convertUTF8ToString(byte[] convs) {
+    StringBuilder result = new StringBuilder();
+    for (byte b : convs) {
+      int unsignedByte = b & 0xFF;
+      result.append((char) unsignedByte);
+    }
+    return result.toString();
+  }
 }

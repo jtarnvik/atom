@@ -23,6 +23,7 @@ public abstract class Atom {
 
   public Atom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
     sizeAndType.rewind();
+    // TODO: Should be stored as long, and unsigned converted to that
     this.size = sizeAndType.asIntBuffer().get(0);
     this.position = position;
     this.atomType = atomType;
@@ -49,7 +50,7 @@ public abstract class Atom {
     return sizeAndType.capacity() + data.capacity();
   }
 
-  public abstract void parseData() throws IOException;
+  public abstract ParsedAtom parseData() throws IOException;
 
   public void loadData(AtomDataSource ads) throws IOException {
     // TODO: Skip reading the data for mdat atoms, use seek instead.
@@ -83,23 +84,5 @@ public abstract class Atom {
     str.append("\n");
     str.append(toStringChild(indentLevel + TO_STRING_EXTRA_INDENT));
     return str.toString();
-  }
-
-  // TODO: convert to record and external class
-  @Data
-  public static class VersionFlag {
-    private int version;
-    private byte[] flags = new byte[3];
-  }
-
-  protected static VersionFlag parseVerionAndFlags(ByteBuffer data) {
-    VersionFlag result = new VersionFlag();
-    byte[] chTmp = new byte[4];
-    data.get(chTmp);
-    result.setVersion(Byte.toUnsignedInt(chTmp[0]));
-    result.getFlags()[0] = chTmp[1];
-    result.getFlags()[1] = chTmp[2];
-    result.getFlags()[2] = chTmp[3];
-    return result;
   }
 }

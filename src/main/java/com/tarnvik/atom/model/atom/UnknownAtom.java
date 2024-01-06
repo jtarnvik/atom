@@ -2,7 +2,9 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.ParsedAtom;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class UnknownAtom extends Atom {
@@ -11,9 +13,10 @@ public class UnknownAtom extends Atom {
   }
 
   @Override
-  public void parseData() {
-    // Do nothing by design
+  public ParsedAtom parseData() throws IOException {
+    return new MVHDAtom.Parsed(){};
   }
+
 
   @Override
   protected String toStringChild(int indentLevel) {

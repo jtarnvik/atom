@@ -2,6 +2,7 @@ package com.tarnvik.atom.parser;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.atom.SubAtoms;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.tarnvik.atom.model.converter.TypeConverter.convertUTF8ToString;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AtomFactory {
@@ -47,11 +50,16 @@ public class AtomFactory {
     }
     ByteBuffer sizeAndType = sizeAndTypeOpt.get();
     sizeAndType.position(4);
-    String type = StandardCharsets.UTF_8.decode(sizeAndType).toString();
+    byte[] chtmp = new byte[4];
+    sizeAndType.get(chtmp);
+    String type = convertUTF8ToString(chtmp);
 
     Atom atom = AtomType.from(type).generateAtomInstance(position, sizeAndType, parent);
     atom.loadData(ads);
     atom.parseData();
+    if (atom instanceof SubAtoms subAtoms) {
+      subAtoms.parseSubAtoms();
+    }
 
     return Optional.of(atom);
   }

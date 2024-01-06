@@ -11,6 +11,7 @@ import com.tarnvik.atom.model.atom.MDATAtom;
 import com.tarnvik.atom.model.atom.MDHDAtom;
 import com.tarnvik.atom.model.atom.METAAtom;
 import com.tarnvik.atom.model.atom.MVHDAtom;
+import com.tarnvik.atom.model.atom.NAMEAtom;
 import com.tarnvik.atom.model.atom.SBGPAtom;
 import com.tarnvik.atom.model.atom.SDTPAtom;
 import com.tarnvik.atom.model.atom.SGPDAtom;
@@ -59,7 +60,7 @@ public enum AtomType {
   MINF(   "minf", SubAtoms::new,    "Media Information"),
   MOOV(   "moov", SubAtoms::new,    "Movie resource metadata"),
   MNHD(   "mvhd", MVHDAtom::new,    "Movie header"),
-  NAME(   "name", SBGPAtom::new,    "Name"),
+  NAME(   "name", NAMEAtom::new,    "Name"),
   SBGP(   "sbgp", SBGPAtom::new,    "Sample-to-Group"),
   SGPD(   "sgpd", SGPDAtom::new,    "Sample Group Description"),
   SMHD(   "smhd", SMHDAtom::new,    "Sound Media Information Header"),

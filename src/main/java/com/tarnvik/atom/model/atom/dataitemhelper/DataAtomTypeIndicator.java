@@ -14,7 +14,7 @@ public class DataAtomTypeIndicator {
   private String comment;
 
   // @formatter:off
-  public static DataAtomTypeIndicator from(DATAAtom atom) {
+  public static DataAtomTypeIndicator from(DATAAtom.Parsed atom) {
     int id = atom.getTypeIndicator();
     return switch (id) {
       case 0  -> new DataAtomTypeIndicator(id, new TypeXX(atom), "reserved",                   "Reserved for use where no type needs to be indicated" );
@@ -23,7 +23,7 @@ public class DataAtomTypeIndicator {
       case 3  -> new DataAtomTypeIndicator(id, new TypeXX(atom), "S/JIS",                      "Deprecated unless it is needed for special Japanese characters" );
       case 4  -> new DataAtomTypeIndicator(id, new TypeXX(atom), "UTF-8 sort",                 "Variant storage of a string for sorting only" );
       case 5  -> new DataAtomTypeIndicator(id, new TypeXX(atom), "UTF-16 sort",                "Variant storage of a string for sorting only" );
-      case 13 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "JPEG",                       "In a JFIF wrapper" );
+      case 13 -> new DataAtomTypeIndicator(id, new Type13(atom), "JPEG",                       "In a JFIF wrapper" );
       case 14 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "PNG",                        "In a PNG wrapper" );
       case 21 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "BE Signed Integer",          "A big-endian signed integer in 1,2,3 or 4 bytes. Note: This data type is not supported in Timed Metadata Media. Use one of the fixed-size signed integer data types (that is, type codes 65, 66, or 67) instead." );
       case 22 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "BE Unsigned Integer",        "A big-endian unsigned integer in 1,2,3 or 4 bytes; size of value determines integer size. Note: This data type is not supported in Timed Metadata Media. Use one of the fixed-size unsigned integer data types (that is, type codes 75, 76, or 77) instead." );

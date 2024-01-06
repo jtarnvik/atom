@@ -2,14 +2,13 @@ package com.tarnvik.atom.model.atom.dataitemhelper;
 
 import com.tarnvik.atom.model.atom.DATAAtom;
 
-public class TypeXX extends TypeBase {
-
-  protected TypeXX(DATAAtom.Parsed parsed) {
+public class Type13 extends TypeBase {
+  protected Type13(DATAAtom.Parsed parsed) {
     super(parsed);
   }
 
   @Override
   public String generate() {
-    return "Not implemented";
+    return "A JPEG image";
   }
 }

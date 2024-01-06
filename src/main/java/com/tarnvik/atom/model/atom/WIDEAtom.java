@@ -2,9 +2,11 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
+import com.tarnvik.atom.model.ParsedAtom;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,9 +17,11 @@ public class WIDEAtom extends Atom {
   }
 
   @Override
-  public void parseData() {
-    // Empty by design, padding and unallocated space
+  public ParsedAtom parseData() throws IOException {
+    return null;
+    // Not yet implemented
   }
+
 
   @Override
   public String toStringChild(int indentLevel) {
