@@ -2,10 +2,11 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
-import com.tarnvik.atom.model.ParsedAtom;
+import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.atom.parts.CommonAtomParts;
 import com.tarnvik.atom.model.atom.parts.VersionFlag;
 import com.tarnvik.atom.model.converter.TypeConverter;
+import com.tarnvik.atom.model.parsedatom.VersionedParsedAtom;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,9 +18,8 @@ import java.nio.ByteBuffer;
 @Getter
 public class METAAtom extends SubAtoms {
   @Data
-  public static class Parsed implements ParsedAtom {
-    private int version;
-    private byte[] flags;
+  @EqualsAndHashCode(callSuper = true)
+  public static class Parsed extends VersionedParsedAtom {
   }
 
   public METAAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
@@ -31,8 +31,8 @@ public class METAAtom extends SubAtoms {
     data.rewind();
     Parsed result = new Parsed();
     VersionFlag versionFlag = CommonAtomParts.parseVerionAndFlags(data);
-    result.version = versionFlag.getVersion();
-    result.flags = versionFlag.getFlags();
+    result.setVersion(versionFlag.getVersion());
+    result.setFlags(versionFlag.getFlags());
     return result;
   }
 
@@ -47,11 +47,8 @@ public class METAAtom extends SubAtoms {
     Parsed parsed = (Parsed) parseData();
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
-    str.append("Parsed: Version: ");
-    str.append(parsed.version);
-    str.append(" Flags: [");
-    str.append(TypeConverter.bytesToHexString(parsed.flags));
-    str.append("]");
+    str.append("Parsed: ");
+    str.append(toStringVersioned(parsed));
     str.append("\n");
     str.append(super.toStringChild(indentLevel));
     return str.toString();

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,7 +52,7 @@ public class TypeConverter {
     return result.toString();
   }
 
-  // USed byt data atom for type 21
+  // Used by data atom for type 21
   public static long convertBytesToSignedLong(byte[] bytes) {
     if (bytes == null || bytes.length < 1 || bytes.length > 4) {
       throw new IllegalArgumentException("Invalid byte array length");
@@ -65,4 +66,14 @@ public class TypeConverter {
     }
     return result;
   }
+
+  public static byte[] removeTerminatingZeroByte(byte [] chTmp) {
+    if (chTmp.length > 0 && chTmp[chTmp.length - 1] == 0) {
+      chTmp = Arrays.copyOfRange(chTmp, 0, chTmp.length - 1);
+    } else {
+      // TODO: Add log noting that the format is not correct. string not terminated by zero
+    }
+    return chTmp;
+  }
+
 }

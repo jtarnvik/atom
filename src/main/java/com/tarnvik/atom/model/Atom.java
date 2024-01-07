@@ -1,5 +1,7 @@
 package com.tarnvik.atom.model;
 
+import com.tarnvik.atom.model.parsedatom.ParsedAtom;
+import com.tarnvik.atom.model.parsedatom.VersionedParsedAtom;
 import com.tarnvik.atom.parser.AtomDataSource;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +9,8 @@ import lombok.Data;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+
+import static com.tarnvik.atom.model.converter.TypeConverter.bytesToHexString;
 
 @AllArgsConstructor
 @Data
@@ -65,6 +69,16 @@ public abstract class Atom {
   }
 
   protected abstract String toStringChild(int indentLevel);
+
+  protected String toStringVersioned(VersionedParsedAtom parsed) {
+    StringBuilder str = new StringBuilder();
+    str.append("Version: ");
+    str.append(parsed.getVersion());
+    str.append(" Flags: [");
+    str.append(bytesToHexString(parsed.getFlags()));
+    str.append("]");
+    return str.toString();
+  }
 
   public String toString(int indentLevel) {
     StringBuilder str = new StringBuilder();

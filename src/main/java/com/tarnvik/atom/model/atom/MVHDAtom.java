@@ -2,11 +2,12 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
-import com.tarnvik.atom.model.ParsedAtom;
+import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.atom.parts.CommonAtomParts;
 import com.tarnvik.atom.model.atom.parts.VersionFlag;
 import com.tarnvik.atom.model.converter.TimeConverter;
 import com.tarnvik.atom.model.converter.TypeConverter;
+import com.tarnvik.atom.model.parsedatom.VersionedParsedAtom;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,9 +19,8 @@ import java.time.LocalDateTime;
 @Getter
 public class MVHDAtom extends Atom {
   @Data
-  public static class Parsed implements ParsedAtom  {
-    private int version;
-    private byte[] flags;
+  @EqualsAndHashCode(callSuper = true)
+  public static class Parsed extends VersionedParsedAtom {
     private long creationTime;
     private long modificationTime;
     private long timescale;
@@ -108,14 +108,14 @@ Bytes   Offset  Description
     data.rewind();
     Parsed result = new Parsed();
     VersionFlag versionFlag = CommonAtomParts.parseVerionAndFlags(data);
-    result.version = versionFlag.getVersion();
-    result.flags = versionFlag.getFlags();
-    if (result.version == 0) {
+    result.setVersion(versionFlag.getVersion());
+    result.setFlags(versionFlag.getFlags());
+    if (result.getVersion() == 0) {
       parserVersion0(result);
-    } else if (result.version == 1) {
+    } else if (result.getVersion() == 1) {
       parserVersion1(result);
     } else {
-      throw new IllegalArgumentException("Unknown mvhd version (0 and 1 supported) found: " + result.version);
+      throw new IllegalArgumentException("Unknown mvhd version (0 and 1 supported) found: " + result.getVersion());
     }
     return result;
   }
@@ -126,8 +126,8 @@ Bytes   Offset  Description
 
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
-    str.append("Parsed: Version: ");
-    str.append(parsed.version);
+    str.append("Parsed: ");
+    str.append(toStringVersioned(parsed));
     LocalDateTime ldt = TimeConverter.secondsSince1904ToLDT(parsed.creationTime);
     str.append(" Creation time: ");
     str.append(ldt.format(TimeConverter.LDT_FORMAT));

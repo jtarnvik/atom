@@ -2,10 +2,11 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
-import com.tarnvik.atom.model.ParsedAtom;
+import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.atom.parts.PackedLanguage;
 import com.tarnvik.atom.model.atom.parts.VersionFlag;
 import com.tarnvik.atom.model.converter.ISO639;
+import com.tarnvik.atom.model.parsedatom.VersionedParsedAtom;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,15 +18,15 @@ import static com.tarnvik.atom.model.atom.parts.CommonAtomParts.parsePackedLangu
 import static com.tarnvik.atom.model.atom.parts.CommonAtomParts.parseVerionAndFlags;
 import static com.tarnvik.atom.model.converter.TypeConverter.bytesToHexString;
 import static com.tarnvik.atom.model.converter.TypeConverter.convertUTF8ToString;
+import static com.tarnvik.atom.model.converter.TypeConverter.removeTerminatingZeroByte;
 import static com.tarnvik.atom.model.converter.TypeConverter.shortToHexString;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
 public class TITLAtom extends Atom {
   @Data
-  public static class Parsed implements ParsedAtom {
-    private int version;
-    private byte[] flags;
+  @EqualsAndHashCode(callSuper = true)
+  public static class Parsed extends VersionedParsedAtom {
     private short packedLanguage;
     private String unpackedLangage;
     private String title;
@@ -40,18 +41,14 @@ public class TITLAtom extends Atom {
     data.rewind();
     Parsed result = new Parsed();
     VersionFlag versionFlag = parseVerionAndFlags(data);
-    result.version = versionFlag.getVersion();
-    result.flags = versionFlag.getFlags();
+    result.setVersion(versionFlag.getVersion());
+    result.setFlags(versionFlag.getFlags());
     PackedLanguage pack = parsePackedLanguage(data);
     result.packedLanguage = pack.getPackedLanguage();
     result.unpackedLangage = pack.getUnpackedLangage();
     byte[] chTmp = new byte[data.remaining()];
     data.get(chTmp);
-    if (chTmp.length > 0 && chTmp[chTmp.length - 1] == 0) {
-      chTmp = Arrays.copyOfRange(chTmp, 0, chTmp.length - 1);
-    } else {
-      // TODO: Add log noting that the format is not correct. string not terminated by zero
-    }
+    chTmp = removeTerminatingZeroByte(chTmp);
     result.title = convertUTF8ToString(chTmp);
     return result;
   }
@@ -61,11 +58,9 @@ public class TITLAtom extends Atom {
     Parsed parsed = (Parsed) parseData();
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
-    str.append("Parsed: Version: ");
-    str.append(parsed.version);
-    str.append(" Flags: [");
-    str.append(bytesToHexString(parsed.flags));
-    str.append("] LanguageCode: ");
+    str.append("Parsed: ");
+    str.append(toStringVersioned(parsed));
+    str.append(" LanguageCode: ");
     str.append(shortToHexString(parsed.packedLanguage));
     str.append(" Unpacked LanguageCode: ");
     str.append(parsed.unpackedLangage);

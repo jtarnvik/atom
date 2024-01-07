@@ -2,7 +2,7 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
-import com.tarnvik.atom.model.ParsedAtom;
+import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.atom.datahelper.DataAtomTypeIndicator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
