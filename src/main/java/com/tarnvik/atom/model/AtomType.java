@@ -38,8 +38,10 @@ import java.nio.ByteBuffer;
 
 public enum AtomType {
   // @formatter:off
-  ATCMT(  "©cmt", SubAtoms::new,    "Meta - ???"),
-  ATNAM(  "©nam", SubAtoms::new,    "Meta - ???"),
+  ATCMT(  "©cmt", SubAtoms::new,    "Meta - Comment"),
+  ATGEN(  "©gen", SubAtoms::new,    "Meta - Genre"),
+  ATGRP(  "©grp", SubAtoms::new,    "Meta - Grouping"),
+  ATNAM(  "©nam", SubAtoms::new,    "Meta - Title"),
   ATTOO(  "©too", SubAtoms::new,    "Meta - Tool"),
   COVR(   "covr", SubAtoms::new,    "Meta - Cover?"),
   CTTS(   "ctts", CTTSAtom::new,    "Composition Offset"),
@@ -69,6 +71,7 @@ public enum AtomType {
   STBL(   "stbl", SubAtoms::new,    "Sample Table"),
   SDTP(   "sdtp", SDTPAtom::new,    "Sample Dependency Flags"),
   STCO(   "stco", STCOAtom::new,    "Chunk Offset"),
+  SOSN(   "sosn", SubAtoms::new,    "Sorting name for TVShows"),
   STSC(   "stsc", STSCAtom::new,    "Sample-to-Chunk"),
   STIK(   "stik", STIKAtom::new,    "Media Store Type"),
   STSD(   "stsd", STSDAtom::new,    "Sample Description"),
