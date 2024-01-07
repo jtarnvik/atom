@@ -1,4 +1,4 @@
-package com.tarnvik.atom.model.atom.dataitemhelper;
+package com.tarnvik.atom.model.atom.datahelper;
 
 import com.tarnvik.atom.model.atom.DATAAtom;
 import lombok.AccessLevel;
@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class DataAtomTypeIndicator {
   private int id;
-  private DataAtomStringGenerator stringGenerator;
+  private DataAtomTypeGenerator typeGenerator;
   private String indicatorType;
   private String comment;
 
@@ -25,7 +25,7 @@ public class DataAtomTypeIndicator {
       case 5  -> new DataAtomTypeIndicator(id, new TypeXX(atom), "UTF-16 sort",                "Variant storage of a string for sorting only" );
       case 13 -> new DataAtomTypeIndicator(id, new Type13(atom), "JPEG",                       "In a JFIF wrapper" );
       case 14 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "PNG",                        "In a PNG wrapper" );
-      case 21 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "BE Signed Integer",          "A big-endian signed integer in 1,2,3 or 4 bytes. Note: This data type is not supported in Timed Metadata Media. Use one of the fixed-size signed integer data types (that is, type codes 65, 66, or 67) instead." );
+      case 21 -> new DataAtomTypeIndicator(id, new Type21(atom), "BE Signed Integer",          "A big-endian signed integer in 1,2,3 or 4 bytes. Note: This data type is not supported in Timed Metadata Media. Use one of the fixed-size signed integer data types (that is, type codes 65, 66, or 67) instead." );
       case 22 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "BE Unsigned Integer",        "A big-endian unsigned integer in 1,2,3 or 4 bytes; size of value determines integer size. Note: This data type is not supported in Timed Metadata Media. Use one of the fixed-size unsigned integer data types (that is, type codes 75, 76, or 77) instead." );
       case 23 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "BE Float32",                 "A big-endian 32-bit floating point value (IEEE754)" );
       case 24 -> new DataAtomTypeIndicator(id, new TypeXX(atom), "BE Float64",                 "A big-endian 64-bit floating point value (IEEE754)" );

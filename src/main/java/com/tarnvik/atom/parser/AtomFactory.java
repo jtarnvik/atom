@@ -56,10 +56,10 @@ public class AtomFactory {
 
     Atom atom = AtomType.from(type).generateAtomInstance(position, sizeAndType, parent);
     atom.loadData(ads);
-    atom.parseData();
     if (atom instanceof SubAtoms subAtoms) {
       subAtoms.parseSubAtoms();
     }
+//    atom.parseData();
 
     return Optional.of(atom);
   }

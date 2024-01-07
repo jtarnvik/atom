@@ -1,4 +1,4 @@
-package com.tarnvik.atom.model.atom.dataitemhelper;
+package com.tarnvik.atom.model.atom.datahelper;
 
 import com.tarnvik.atom.model.atom.DATAAtom;
 
@@ -8,7 +8,7 @@ public class Type13 extends TypeBase {
   }
 
   @Override
-  public String generate() {
+  public String toString() {
     return "A JPEG image";
   }
 }

@@ -1,4 +1,4 @@
-package com.tarnvik.atom.model.atom.dataitemhelper;
+package com.tarnvik.atom.model.atom.datahelper;
 
 import com.tarnvik.atom.model.atom.DATAAtom;
 
@@ -10,7 +10,7 @@ public class Type01 extends TypeBase {
   }
 
   @Override
-  public String generate() {
+  public String toString() {
 //    return new String(parsed.getPayload(), StandardCharsets.UTF_8);
     return convertUTF8ToString(parsed.getPayload());
   }

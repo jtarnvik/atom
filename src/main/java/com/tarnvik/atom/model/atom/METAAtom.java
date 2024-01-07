@@ -38,7 +38,6 @@ public class METAAtom extends SubAtoms {
 
   @Override
   public void parseSubAtoms() throws IOException {
-//    data.rewind();
     data.position(4);   // Make sure to advance after own data
     parseSubAtoms(4);
   }

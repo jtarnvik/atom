@@ -3,13 +3,11 @@ package com.tarnvik.atom.model.atom;
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
 import com.tarnvik.atom.model.ParsedAtom;
-import com.tarnvik.atom.model.atom.dataitemhelper.DataAtomStringGenerator;
-import com.tarnvik.atom.model.atom.dataitemhelper.DataAtomTypeIndicator;
+import com.tarnvik.atom.model.atom.datahelper.DataAtomTypeIndicator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 @EqualsAndHashCode(callSuper = true)
@@ -26,6 +24,10 @@ public class DATAAtom extends Atom {
 
   public DATAAtom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
     super(position, sizeAndType, atomType, parent);
+  }
+
+  public Parsed getParsed() {
+    return (Parsed) parseData();
   }
 
   @Override
@@ -56,11 +58,11 @@ public class DATAAtom extends Atom {
     }
     str.append(" Code: ");
     str.append(parsed.typeIndicator);
-    DataAtomTypeIndicator ind = DataAtomTypeIndicator.from(parsed);
     str.append(" Type: ");
+    DataAtomTypeIndicator ind = DataAtomTypeIndicator.from(parsed);
     str.append(ind.getIndicatorType());
     str.append(" Value: ");
-    str.append(ind.getStringGenerator().generate());
+    str.append(ind.getTypeGenerator());
     return str.toString();
   }
 }

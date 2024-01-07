@@ -12,6 +12,9 @@ public class TypeConverter {
   public static String byteToHexString(byte b) {
     return String.format("0x%02X", b & 0xFF);
   }
+  public static String shortToHexString(short b) {
+    return String.format("0x%04X", b & 0xFFFF);
+  }
 
   public static String bytesToHexString(byte[] bts) {
     List<String> result = new ArrayList<>();
@@ -46,5 +49,20 @@ public class TypeConverter {
       result.append((char) unsignedByte);
     }
     return result.toString();
+  }
+
+  // USed byt data atom for type 21
+  public static long convertBytesToSignedLong(byte[] bytes) {
+    if (bytes == null || bytes.length < 1 || bytes.length > 4) {
+      throw new IllegalArgumentException("Invalid byte array length");
+    }
+
+    long result = 0;
+    for (int i = 0; i < bytes.length; i++) {
+      long byteValue = bytes[i] & 0xFF; // Convert to unsigned
+      byteValue <<= (bytes.length - 1 - i) * 8;
+      result |= byteValue;
+    }
+    return result;
   }
 }

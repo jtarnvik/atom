@@ -17,12 +17,14 @@ import com.tarnvik.atom.model.atom.SDTPAtom;
 import com.tarnvik.atom.model.atom.SGPDAtom;
 import com.tarnvik.atom.model.atom.SMHDAtom;
 import com.tarnvik.atom.model.atom.STCOAtom;
+import com.tarnvik.atom.model.atom.STIKAtom;
 import com.tarnvik.atom.model.atom.STSCAtom;
 import com.tarnvik.atom.model.atom.STSDAtom;
 import com.tarnvik.atom.model.atom.STSSAtom;
 import com.tarnvik.atom.model.atom.STSZAtom;
 import com.tarnvik.atom.model.atom.STTSAtom;
 import com.tarnvik.atom.model.atom.SubAtoms;
+import com.tarnvik.atom.model.atom.TITLAtom;
 import com.tarnvik.atom.model.atom.TKHDAtom;
 import com.tarnvik.atom.model.atom.TREFAtom;
 import com.tarnvik.atom.model.atom.UnknownAtom;
@@ -68,10 +70,12 @@ public enum AtomType {
   SDTP(   "sdtp", SDTPAtom::new,    "Sample Dependency Flags"),
   STCO(   "stco", STCOAtom::new,    "Chunk Offset"),
   STSC(   "stsc", STSCAtom::new,    "Sample-to-Chunk"),
+  STIK(   "stik", STIKAtom::new,    "Media Store Type"),
   STSD(   "stsd", STSDAtom::new,    "Sample Description"),
   STSS(   "stss", STSSAtom::new,    "Sync Sample"),
   STSZ(   "stsz", STSZAtom::new,    "Sample Size"),
   STTS(   "stts", STTSAtom::new,    "Time-to-Sample"),
+  TITL(   "titl", TITLAtom::new,    "Track title"),
   TKHD(   "tkhd", TKHDAtom::new,    "Track header"),
   TRAK(   "trak", SubAtoms::new,    "Trak"),
   TREF(   "tref", TREFAtom::new,    "Track reference"),
