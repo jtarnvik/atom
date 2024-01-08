@@ -2,6 +2,8 @@ package com.tarnvik.atom.model.atom.datahelper;
 
 import com.tarnvik.atom.model.atom.DATAAtom;
 
+import java.awt.image.BufferedImage;
+
 public abstract class TypeBase implements DataAtomTypeGenerator {
   protected final DATAAtom.Parsed parsed;
 
@@ -21,6 +23,16 @@ public abstract class TypeBase implements DataAtomTypeGenerator {
 
   @Override
   public long toLong() {
+    throw new IllegalStateException(this.getClass().toString() +  " does not support toLong");
+  }
+
+  @Override
+  public boolean supportsBufferedImageRead() {
+    return false;
+  }
+
+  @Override
+  public BufferedImage toBufferedImage() {
     throw new IllegalStateException(this.getClass().toString() +  " does not support toLong");
   }
 }
