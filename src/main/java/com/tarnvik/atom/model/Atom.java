@@ -1,5 +1,6 @@
 package com.tarnvik.atom.model;
 
+import com.tarnvik.atom.model.operations.OperationExecuter;
 import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.parsedatom.VersionedParsedAtom;
 import com.tarnvik.atom.parser.AtomDataSource;
@@ -9,12 +10,14 @@ import lombok.Data;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
 
 import static com.tarnvik.atom.model.converter.TypeConverter.bytesToHexString;
 
 @AllArgsConstructor
 @Data
-public abstract class Atom {
+public abstract class   Atom implements OperationExecuter {
   public static final int TO_STRING_EXTRA_INDENT = 4;
 
   protected final int size;
@@ -23,6 +26,7 @@ public abstract class Atom {
   protected final ByteBuffer sizeAndType;
   protected final Atom parent;
 
+  protected boolean changed = false;
   protected ByteBuffer data;
 
   public Atom(long position, ByteBuffer sizeAndType, AtomType atomType, Atom parent) {
@@ -41,6 +45,17 @@ public abstract class Atom {
 
   public boolean hasParent() {
     return parent != null;
+  }
+
+  public void removeChild(Atom child) {
+    throw new IllegalArgumentException("Atom has no children.");
+  }
+
+  public void markAsChanged() {
+    changed = true;
+    if (hasParent()) {
+      getParent().markAsChanged();
+    }
   }
 
   protected long getDataStartPosition() {
@@ -68,6 +83,11 @@ public abstract class Atom {
     }
   }
 
+  @Override
+  public Optional<List<Atom>> findChildren(AtomType type){
+    return Optional.empty();
+  }
+
   protected abstract String toStringChild(int indentLevel);
 
   protected String toStringVersioned(VersionedParsedAtom parsed) {
@@ -83,6 +103,9 @@ public abstract class Atom {
   public String toString(int indentLevel) {
     StringBuilder str = new StringBuilder();
     str.repeat(" ", indentLevel);
+    if (changed) {
+      str.append("*");
+    }
     str.append("Type: ");
     str.append(atomType.getType());
     if (atomType == AtomType.UNKNOWN) {

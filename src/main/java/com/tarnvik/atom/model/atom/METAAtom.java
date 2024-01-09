@@ -2,10 +2,9 @@ package com.tarnvik.atom.model.atom;
 
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
-import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.atom.parts.CommonAtomParts;
 import com.tarnvik.atom.model.atom.parts.VersionFlag;
-import com.tarnvik.atom.model.converter.TypeConverter;
+import com.tarnvik.atom.model.parsedatom.ParsedAtom;
 import com.tarnvik.atom.model.parsedatom.VersionedParsedAtom;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

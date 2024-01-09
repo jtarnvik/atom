@@ -10,7 +10,9 @@ import lombok.Getter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
@@ -34,6 +36,24 @@ public class SubAtoms extends Atom {
 
   protected void parseSubAtoms(int adjustedPosition) throws IOException {
     subAtoms.addAll(AtomFactory.loadAll(data, getDataStartPosition() + adjustedPosition, this));
+  }
+
+  @Override
+  public Optional<List<Atom>> findChildren(AtomType at) {
+    return Optional.of(findChildren(at, subAtoms));
+  }
+
+  @Override
+  public void removeChild(Atom child) {
+    Iterator<Atom> iterator = subAtoms.iterator();
+    while (iterator.hasNext()) {
+      Atom itm = iterator.next();
+      // TODO: Implement an equals method. Only the exackt child should be revmoed, now all of the same type is
+      if (itm.getAtomType() == child.getAtomType()) {
+        iterator.remove();
+      }
+    }
+    markAsChanged();
   }
 
   @Override

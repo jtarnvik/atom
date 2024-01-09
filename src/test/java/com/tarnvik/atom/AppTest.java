@@ -1,14 +1,13 @@
 package com.tarnvik.atom;
 
 
-import com.tarnvik.atom.model.Atom;
-import com.tarnvik.atom.parser.AtomFactory;
+import com.tarnvik.atom.model.MP4File;
+import com.tarnvik.atom.parser.MP4FileFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class AppTest {
   @Test
@@ -17,7 +16,8 @@ public class AppTest {
     if (!Files.exists(fp)) {
       return;
     }
-    List<Atom> result = AtomFactory.loadAll(fp, 0, null);
-    result.forEach(atom -> System.out.println(atom.toString(0)));
+    MP4File mp4File = MP4FileFactory.create(fp);
+    mp4File.deleteEpisodeTitle();
+    mp4File.getRoots().forEach(atom -> System.out.println(atom.toString(0)));
   }
 }
