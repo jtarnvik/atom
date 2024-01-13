@@ -4,9 +4,14 @@ import com.tarnvik.atom.model.atom.DATAAtom;
 
 import static com.tarnvik.atom.model.converter.TypeConverter.convertUTF8ToString;
 
-public class Type01 extends TypeBase {
-  protected Type01(DATAAtom.Parsed parsed) {
+public class Type01 extends PayloadParserBase {
+  public Type01(DATAAtom.Parsed parsed) {
     super(parsed);
+  }
+
+  @Override
+  public boolean supportsStringRead() {
+    return true;
   }
 
   @Override

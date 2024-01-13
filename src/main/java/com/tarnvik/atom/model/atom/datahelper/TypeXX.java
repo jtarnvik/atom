@@ -2,9 +2,9 @@ package com.tarnvik.atom.model.atom.datahelper;
 
 import com.tarnvik.atom.model.atom.DATAAtom;
 
-public class TypeXX extends TypeBase {
+public class TypeXX extends PayloadParserBase {
 
-  protected TypeXX(DATAAtom.Parsed parsed) {
+  public TypeXX(DATAAtom.Parsed parsed) {
     super(parsed);
   }
 }

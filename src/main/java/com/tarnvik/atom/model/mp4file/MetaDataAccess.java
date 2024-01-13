@@ -4,6 +4,7 @@ import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
 import com.tarnvik.atom.model.MetaDataAtomTypeAlias;
 import com.tarnvik.atom.model.operations.DeleteAtom;
+import com.tarnvik.atom.model.operations.GetSingleTextChild;
 import com.tarnvik.atom.model.operations.OperationExecuter;
 import com.tarnvik.atom.model.paths.AtomPath;
 import com.tarnvik.atom.model.paths.PositionInfo;
@@ -44,11 +45,20 @@ public class MetaDataAccess {
     new ExecutionHelper(mp4File.getRoots()).executeOperation(new ArrayList<>(info.getPath()), new DeleteAtom());
   }
 
-  public Optional<String> getEpisodeTitle(MetaDataAtomTypeAlias alias) {
+  public Optional<String> getMetaDataText(MetaDataAtomTypeAlias alias) {
     if (!TEXT_ATOMS.contains(alias)) {
       throw new IllegalArgumentException("Atom does not support text extraction, atom: " + alias);
     }
-    throw new IllegalStateException("Not implemented");
+    AtomType at = alias.getAtomType();
+    PositionInfo info = AtomPath.getPath(at).orElseThrow(() -> new IllegalStateException("Path to Atom not known, atom: " + at));
+    List<String> texts = new ExecutionHelper(mp4File.getRoots()).executeOperation(new ArrayList<>(info.getPath()), new GetSingleTextChild());
+    if (texts.isEmpty()) {
+        return Optional.empty();
+    } else if (texts.size()>1) {
+      throw new IllegalStateException("Multiple return values, should only be one (?), size: " + texts.size());
+    } else {
+      return Optional.of(texts.getFirst());
+    }
   }
 
   public void setEpisodeTitle(String title) {

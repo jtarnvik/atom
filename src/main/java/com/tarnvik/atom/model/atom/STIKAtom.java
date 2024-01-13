@@ -3,7 +3,7 @@ package com.tarnvik.atom.model.atom;
 import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
 import com.tarnvik.atom.model.parsedatom.ParsedAtom;
-import com.tarnvik.atom.model.atom.datahelper.DataAtomTypeGenerator;
+import com.tarnvik.atom.model.atom.datahelper.PayloadParser;
 import com.tarnvik.atom.model.atom.datahelper.DataAtomTypeIndicator;
 import com.tarnvik.atom.model.atom.stikhelper.MediaType;
 import lombok.Data;
@@ -37,8 +37,9 @@ public class STIKAtom extends SubAtoms {
     if (!(child instanceof DATAAtom dta)) {
       throw new IllegalStateException("Child atom not of type DataAtom, this atom has an unexpected format, type: " + child.getClass().toString());
     } else {
-      DataAtomTypeIndicator ind = DataAtomTypeIndicator.from(dta.getParsed());
-      DataAtomTypeGenerator typeGenerator = ind.getTypeGenerator();
+      DATAAtom.Parsed parsed = dta.getParsed();
+      DataAtomTypeIndicator ind = DataAtomTypeIndicator.from(parsed.getTypeIndicator());
+      PayloadParser typeGenerator = ind.generatePayloadParser(parsed);
       if (!typeGenerator.supportsLong()) {
         throw new IllegalStateException("DataAtom does not support long, unable to convert to Media Type type :" + ind.getIndicatorType());
       }

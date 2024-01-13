@@ -59,10 +59,10 @@ public class DATAAtom extends Atom {
     str.append(" Code: ");
     str.append(parsed.typeIndicator);
     str.append(" Type: ");
-    DataAtomTypeIndicator ind = DataAtomTypeIndicator.from(parsed);
+    DataAtomTypeIndicator ind = DataAtomTypeIndicator.from(parsed.getTypeIndicator());
     str.append(ind.getIndicatorType());
     str.append(" Value: ");
-    str.append(ind.getTypeGenerator());
+    str.append(ind.generatePayloadParser(parsed));
     return str.toString();
   }
 }

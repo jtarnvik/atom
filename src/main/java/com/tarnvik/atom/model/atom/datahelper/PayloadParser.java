@@ -2,7 +2,8 @@ package com.tarnvik.atom.model.atom.datahelper;
 
 import java.awt.image.BufferedImage;
 
-public interface DataAtomTypeGenerator {
+public interface PayloadParser {
+  boolean supportsStringRead();
   String toString();
 
   boolean supportsLong();

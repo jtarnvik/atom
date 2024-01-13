@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-public class TypeImageSupport extends TypeBase {
-  protected TypeImageSupport(DATAAtom.Parsed parsed) {
+public class TypeImageSupport extends PayloadParserBase {
+  public TypeImageSupport(DATAAtom.Parsed parsed) {
     super(parsed);
   }
 

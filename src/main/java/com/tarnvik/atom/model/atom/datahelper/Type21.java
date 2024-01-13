@@ -4,8 +4,8 @@ import com.tarnvik.atom.model.atom.DATAAtom;
 
 import static com.tarnvik.atom.model.converter.TypeConverter.convertBytesToSignedLong;
 
-public class Type21 extends TypeBase {
-  protected Type21(DATAAtom.Parsed parsed) {
+public class Type21 extends PayloadParserBase {
+  public Type21(DATAAtom.Parsed parsed) {
     super(parsed);
   }
 
