@@ -1,7 +1,7 @@
 package com.tarnvik.atom;
 
 
-import com.tarnvik.atom.model.MP4File;
+import com.tarnvik.atom.model.mp4file.MP4File;
 import com.tarnvik.atom.parser.MP4FileFactory;
 import org.junit.jupiter.api.Test;
 

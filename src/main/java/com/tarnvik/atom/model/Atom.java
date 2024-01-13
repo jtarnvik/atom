@@ -17,7 +17,7 @@ import static com.tarnvik.atom.model.converter.TypeConverter.bytesToHexString;
 
 @AllArgsConstructor
 @Data
-public abstract class   Atom implements OperationExecuter {
+public abstract class Atom implements OperationExecuter {
   public static final int TO_STRING_EXTRA_INDENT = 4;
 
   protected final int size;
@@ -47,7 +47,7 @@ public abstract class   Atom implements OperationExecuter {
     return parent != null;
   }
 
-  public void removeChild(Atom child) {
+  public boolean removeChild(Atom child) {
     throw new IllegalArgumentException("Atom has no children.");
   }
 
@@ -84,7 +84,7 @@ public abstract class   Atom implements OperationExecuter {
   }
 
   @Override
-  public Optional<List<Atom>> findChildren(AtomType type){
+  public Optional<List<Atom>> findChildren(AtomType type) {
     return Optional.empty();
   }
 

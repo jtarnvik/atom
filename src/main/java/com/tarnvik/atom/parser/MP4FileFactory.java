@@ -1,7 +1,7 @@
 package com.tarnvik.atom.parser;
 
 import com.tarnvik.atom.model.Atom;
-import com.tarnvik.atom.model.MP4File;
+import com.tarnvik.atom.model.mp4file.MP4File;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

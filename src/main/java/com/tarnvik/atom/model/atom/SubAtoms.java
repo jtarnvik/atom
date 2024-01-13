@@ -44,7 +44,7 @@ public class SubAtoms extends Atom {
   }
 
   @Override
-  public void removeChild(Atom child) {
+  public boolean removeChild(Atom child) {
     Iterator<Atom> iterator = subAtoms.iterator();
     while (iterator.hasNext()) {
       Atom itm = iterator.next();
@@ -54,6 +54,7 @@ public class SubAtoms extends Atom {
       }
     }
     markAsChanged();
+    return true;
   }
 
   @Override

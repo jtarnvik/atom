@@ -4,6 +4,7 @@ import com.tarnvik.atom.model.Atom;
 import com.tarnvik.atom.model.AtomType;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,20 +17,28 @@ public interface OperationExecuter {
       .toList();
   }
 
-  default void executeOperation(List<AtomType> path, AtomOperation op) {
+  default <T> List<T> executeOperation(List<AtomType> path, AtomOperation<T> op) {
     if (path.isEmpty()) {
       throw new IllegalArgumentException("Unable to execute on empty path");
     }
-    AtomType at = path.removeFirst();
+    ArrayList<AtomType> lPath = new ArrayList<>(path);
+
+    AtomType at = lPath.removeFirst();
     Optional<List<Atom>> matchingChildrenOpt = findChildren(at);
     if (matchingChildrenOpt.isEmpty() || matchingChildrenOpt.get().isEmpty()) {
-      return;
+      return List.of();
     }
     List<Atom> matchingChildren = matchingChildrenOpt.get();
-    if (path.isEmpty()) {
-      matchingChildren.forEach(op::apply);
+    if (lPath.isEmpty()) {
+      return matchingChildren.stream()
+        .map(op::apply)
+        .toList();
     } else {
-      matchingChildren.forEach(atom -> atom.executeOperation(new ArrayList<>(path), op));
+      return matchingChildren
+        .stream()
+        .map(atom -> atom.executeOperation(new ArrayList<>(lPath), op))
+        .flatMap(Collection::stream)
+        .toList();
     }
   }
 }

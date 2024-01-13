@@ -17,12 +17,12 @@ public class DataAtomTypeIndicator {
   public static DataAtomTypeIndicator from(DATAAtom.Parsed parsed) {
     int id = parsed.getTypeIndicator();
     return switch (id) {
-      case 0  -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "reserved",                   "Reserved for use where no type needs to be indicated" );
-      case 1  -> new DataAtomTypeIndicator(id, new Type01(parsed), "UTF-8",                      "Without any count or NULL terminator" );
-      case 2  -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "UTF-16",                     "Also known as UTF-16BE" );
-      case 3  -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "S/JIS",                      "Deprecated unless it is needed for special Japanese characters" );
-      case 4  -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "UTF-8 sort",                 "Variant storage of a string for sorting only" );
-      case 5  -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "UTF-16 sort",                "Variant storage of a string for sorting only" );
+      case 00 -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "reserved",                   "Reserved for use where no type needs to be indicated" );
+      case 01 -> new DataAtomTypeIndicator(id, new Type01(parsed), "UTF-8",                      "Without any count or NULL terminator" );
+      case 02 -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "UTF-16",                     "Also known as UTF-16BE" );
+      case 03 -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "S/JIS",                      "Deprecated unless it is needed for special Japanese characters" );
+      case 04 -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "UTF-8 sort",                 "Variant storage of a string for sorting only" );
+      case 05 -> new DataAtomTypeIndicator(id, new TypeXX(parsed), "UTF-16 sort",                "Variant storage of a string for sorting only" );
       case 13 -> new DataAtomTypeIndicator(id, new Type13(parsed), "JPEG",                       "In a JFIF wrapper" );
       case 14 -> new DataAtomTypeIndicator(id, new Type14(parsed), "PNG",                        "In a PNG wrapper" );
       case 21 -> new DataAtomTypeIndicator(id, new Type21(parsed), "BE Signed Integer",          "A big-endian signed integer in 1,2,3 or 4 bytes. Note: This data type is not supported in Timed Metadata Media. Use one of the fixed-size signed integer data types (that is, type codes 65, 66, or 67) instead." );
