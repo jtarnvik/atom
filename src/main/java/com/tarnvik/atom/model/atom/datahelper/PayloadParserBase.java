@@ -3,6 +3,7 @@ package com.tarnvik.atom.model.atom.datahelper;
 import com.tarnvik.atom.model.atom.DATAAtom;
 
 import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 
 public abstract class PayloadParserBase implements PayloadParser {
   protected final DATAAtom.Parsed parsed;

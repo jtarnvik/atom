@@ -41,4 +41,27 @@ public interface OperationExecuter {
         .toList();
     }
   }
+
+  default List<Atom> findAtoms(List<AtomType> path) {
+    if (path.isEmpty()) {
+      throw new IllegalArgumentException("Unable to execute on empty path");
+    }
+    ArrayList<AtomType> lPath = new ArrayList<>(path);
+
+    AtomType at = lPath.removeFirst();
+    Optional<List<Atom>> matchingChildrenOpt = findChildren(at);
+    if (matchingChildrenOpt.isEmpty() || matchingChildrenOpt.get().isEmpty()) {
+      return List.of();
+    }
+    List<Atom> matchingChildren = matchingChildrenOpt.get();
+    if (lPath.isEmpty()) {
+      return matchingChildren;
+    } else {
+      return matchingChildren
+        .stream()
+        .map(atom -> atom.findAtoms(new ArrayList<>(lPath)))
+        .flatMap(Collection::stream)
+        .toList();
+    }
+  }
 }

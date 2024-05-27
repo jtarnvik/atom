@@ -88,6 +88,20 @@ public abstract class Atom implements OperationExecuter {
     return Optional.empty();
   }
 
+
+  public ByteBuffer toByteBuffer() {
+    throw new IllegalStateException("Not Implemented.");
+  }
+
+  public void replaceChild(Atom child) {
+    data = child.toByteBuffer();
+    child.markAsChanged();
+  }
+
+  public void replaceChildren(List<Atom> children) {
+    throw new IllegalStateException("Not Implemented.");
+  }
+
   protected abstract String toStringChild(int indentLevel);
 
   protected String toStringVersioned(VersionedParsedAtom parsed) {

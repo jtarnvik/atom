@@ -9,6 +9,10 @@ public class Type01 extends PayloadParserBase {
     super(parsed);
   }
 
+  public static byte[] createPayload(String text) {
+    throw new IllegalStateException("Not implemented");
+  }
+
   @Override
   public boolean supportsStringRead() {
     return true;

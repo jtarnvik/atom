@@ -26,6 +26,13 @@ public class DATAAtom extends Atom {
     super(position, sizeAndType, atomType, parent);
   }
 
+  public static DATAAtom from(String text, Atom parent) {
+    Parsed parsed = new Parsed();
+    parsed.set = 
+//    return null;
+
+  }
+
   public Parsed getParsed() {
     return (Parsed) parseData();
   }
