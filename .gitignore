@@ -22,3 +22,12 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+/testdata/mov-w-sound.mov
+/testdata/mov-w-sound-Hacks - 1x01.m4v
+/testdata/mov-w-sound-recoded.m4v
+/testdata/mp4-w-sound.mp4
+/testdata/mp4-w-sound-Hacks - 1x01.m4v
+/testdata/mp4-w-sound-Hacks - 1x01.txt
+/testdata/mp4-w-sound-recoded.m4v
+/testdata/mp4-w-sound-recoded-iTunesd.m4v
+/testdata/mp4-w-sound-recoded-iTunesdExtraMeta.m4v
