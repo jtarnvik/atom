@@ -28,8 +28,8 @@ public class DATAAtom extends Atom {
 
   public static DATAAtom from(String text, Atom parent) {
     Parsed parsed = new Parsed();
-    parsed.set = 
-//    return null;
+//    parsed.set =
+    return null;
 
   }
 
